@@ -1,22 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 class compilador{
 	private:
 		char a[50];
-		int contador=0;
+		int contador;
 		string palabracon;
-		
 		string alfabeto[50];
-		
 	public:
-		
+		compilador();
 		string palabra();
 		void archivo();
 		char separarcaracter(int);
 		void guardarAlfa();
-		string comprobarLeng();//Comprobamos si esta ó no en el lenguaje.
+		bool comprobarLeng(string);//Comprobamos si esta ó no en el lenguaje.
+		 ~compilador();
 };
 
 FILE *fd;
@@ -26,43 +24,34 @@ int main() {
 	b.archivo();//Abre archivo.
 	b.guardarAlfa();//Crea tabla Simbolos.
 //---No borrar--
-	b.comprobarLeng();
-	cout<<b.comprobarLeng();
+	b.palabra();
+	//b.palabra();
+	cout<<b.palabra();
+	
 	
 	return 0;
 }
+compilador::compilador(){
+	contador=0;
+	}
 
+bool compilador::comprobarLeng(string aux){
+	//cout <<aux;
 
-string compilador::comprobarLeng(){
-	string aux=palabra();
-	cout<<aux;
-
-		if((aux[0]>=65 && aux[0]<=90) || (aux[0]>=97 && aux[0]<=122)){
-			
-			return aux;
-		}
-		else if(aux[0]>=48 && aux[0]<=57){
+	if(aux[0]>=48 && aux[0]<=57){
 		
-			return aux;
-		}else{
-			cout<<"soy aux : "<<aux;
-			int i=0;
-			bool bandera=false;
-			while(i<44){
-				if(alfabeto[i]==aux) bandera=true;
-				i++;
-			}
-			
-			if(bandera==true){
-			
-				return aux;
-			}else{
-				
-				return "Error palabra no en el lenguaje";
-			}
+		return false;
+	}
+	
+	for(int i=0;i<44;i++){
+		//Esta mal planteado esta parte.
+		if(alfabeto[i]==aux){
+		//	cout<<"Dentro de al funcion comprobarLengt: "<<aux[0];
+			return false;
 		}
-	//aux="";
-	return aux;
+		
+	}
+	return true;
 }
 /*if(aux==alfabeto[i]){
 				
@@ -101,8 +90,12 @@ void compilador::archivo(){
 string compilador::palabra(){
 	char letra;
 	string cadena="";
+		bool band=false,x=false;
 	letra = separarcaracter(contador++);
-	
+			if(letra==32){
+				return palabra();
+			}
+
 		if(letra>=48 && letra<=57){//Numeros
 			while((letra>=48 && letra<=57)){
 			cadena+= letra;
@@ -115,17 +108,17 @@ string compilador::palabra(){
 				if (letra>=48 && letra<=57){
 				
 					cadena+=".";
-					bool band=false;
+				
 					while (letra>=48 && letra<=57)
 					{
 							cadena+= letra;
 							letra=separarcaracter(contador++);
-							//28FEBR
+							//28FEBR concatena numeros con letras
 							
 							while((letra>=65 && letra<=90) || (letra>=97 && letra<=122)){
 								cadena+= letra;
 								letra=separarcaracter(contador++);
-								band=true;
+								band=true;//Este es un error de sintaxias marca error.
 							}
 							//28 DE FEBR
 					}
@@ -135,10 +128,19 @@ string compilador::palabra(){
 				}
 			}
 			separarcaracter(contador--);
-			x=comprobarLeng(cadena);
+		//Comparacion si esta en el lenguaje 
+		//true = error.
 	
-			return cadena;
+		x=comprobarLeng(cadena);
+			if(x==true || band==true){
+				return "Error de sintaxis prro :V";
+			}
+			else{
+				return cadena;	
+			}
+	
 			
+			//Cuando son letras.
 		}else if((letra>=94 && letra<=122) ||(letra>=65 && letra<=90)){//Letras
 				while((letra>=94 && letra<=122) ||(letra>=65 && letra<=90)||(letra>=94 && letra<=122) ||(letra>=65 && letra<=90)){
 				cadena+= letra;
@@ -147,16 +149,40 @@ string compilador::palabra(){
 			separarcaracter(contador--);
 			return cadena;
 		}
-		else{
-			//esoacio en blanco
-			cadena+= letra;
-			//separarcaracter(contador--);
-			return cadena;
+		else
+		{
+			//espacio en blanco
+			//Concatenar >= ,<= etc..
+			//	cout<<letra<<endl;
+			cadena= letra;
+			//	cout<<cadena;
+			x=comprobarLeng(cadena);
+			//cout<<x;
+			if(x==true){
+				return "Error de sintaxis prro :v";
+			}else{
+				//Concatenamos los signos de igualación y diferiencia.
+				char linea2=separarcaracter(contador++);
+				if(cadena=="<" || cadena==">" || cadena=="!" || cadena=="=" ){
+				
+				if(linea2=='='){
+					cadena+=linea2;
+					//cout<<cadena;
+				}
+				}else if(cadena=="("){
+			
+					if(linea2==')'){
+					cadena+=linea2;
+					}
+				}
+				else{
+					separarcaracter(contador--);
+				}
+				return cadena;
+			}	
 		}
-	
-
-	return NULL;
-}
+		return NULL;
+	}
 char compilador::separarcaracter(int contador){
 	return a[contador+1];	
 }
@@ -177,9 +203,10 @@ void compilador::guardarAlfa() {
 	alfabeto[12]="or";
 	alfabeto[13]="==";
 	alfabeto[14]="!=";
-	alfabeto[0]="<";
 	alfabeto[16]="<=";
 	alfabeto[17]=">=";
+	alfabeto[28]="()";
+	alfabeto[0]="<";
 	alfabeto[18]=">";
 	alfabeto[19]="+";
 	alfabeto[20]="-";
@@ -190,11 +217,10 @@ void compilador::guardarAlfa() {
 	alfabeto[25]=";";
 	alfabeto[26]=":";
 	alfabeto[27]="(";
-	alfabeto[28]="()";
 	alfabeto[29]=")";
 	alfabeto[30]="{";
 	alfabeto[31]="}";
-	alfabeto[32]="{}";
+	alfabeto[32]="!";
 	alfabeto[33]="[";
 	alfabeto[34]="]";
 	alfabeto[35]="dnsint";
@@ -207,5 +233,16 @@ void compilador::guardarAlfa() {
 	alfabeto[42]="dnsdouble";
 	alfabeto[43]="dnslong";
 }
-
+compilador::~compilador(){
+		for(int i=0;i<50; i++){
+			a[i]=0;
+			alfabeto[i]="";
+		}
+		for(int j=0;j<44;j++){
+			alfabeto[j]="";
+		}
+		int contador=0;
+		 palabracon="";
+			
+};
 
