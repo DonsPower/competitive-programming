@@ -7,6 +7,7 @@ class compilador{
 		int contador;
 		string palabracon;
 		string alfabeto[50];
+		vector<string>arr;
 	public:
 		compilador();
 		string palabra();
@@ -14,7 +15,8 @@ class compilador{
 		char separarcaracter(int);
 		void guardarAlfa();
 		bool comprobarLeng(string);//Comprobamos si esta ó no en el lenguaje.
-		 ~compilador();
+		void agregarPalabras(); //Se agregan todas las palabras a un arreglo.
+		~compilador();
 };
 
 FILE *fd;
@@ -23,18 +25,22 @@ int main() {
 	compilador b;//Crea clase.
 	b.archivo();//Abre archivo.
 	b.guardarAlfa();//Crea tabla Simbolos.
-//---No borrar--
-	b.palabra();
-	//b.palabra();
-	cout<<b.palabra();
-	
-	
+	b.agregarPalabras();
+//---No borrar--	
+	cout<<b.palabra();	
 	return 0;
 }
 compilador::compilador(){
 	contador=0;
 	}
 
+void compilador::agregarPalabras(){
+	string x="";
+	while(x!="end"){
+		x=palabra();
+		arr.push_back(x);
+	}
+}
 bool compilador::comprobarLeng(string aux){
 	//cout <<aux;
 
