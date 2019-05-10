@@ -15,14 +15,14 @@ class compilador{
 		void archivo();
 		char separarcaracter(int);
 		void guardarAlfa();
-		bool comprobarLeng(string);//Comprobamos si esta ó no en el lenguaje.
+		bool comprobarLeng(string);//Comprobamos si esta ï¿½ no en el lenguaje.
 		void agregarPalabras(); //Se agregan todas las palabras a un arreglo.
 		string retornaPalabra(int);
 		//Introducir follow y BNF
 		void programa();
 		void bloque();
 		void aux1();
-		void aux2();		
+		void aux2();
 		void aux3();
 		void aux4();
 		void aux5();
@@ -65,10 +65,10 @@ compilador::compilador(){
 	void compilador::programa(){
 	//	cout<<"entro"<<endl;
 		bloque();
-		
+
 		//verificar si esto esta bien.
 		string x1=retornaPalabra(pos++); //Igualo la palabra.
-		
+
 		if(x1=="end"){
 			cout<<"Compilacion exitosa, :D Bien FELICIDADES BRO :D "<<endl;
 		}else{
@@ -84,13 +84,13 @@ compilador::compilador(){
 	}
 
 	void compilador::aux1(){
-		
+
 		string x=retornaPalabra(pos++); //Igualo la palabra.
 		//cout<<x;
 		//Modificar identificadores.
 		if(x!="dnsvar" && x!="dnsfunction" && x!="iden" && x!="dnscall" && x!="dnswrite" && x!="dnsstart" && x!="dnsif" && x!="dnswhile"){
 				if(x=="dnsdef"){
-					aux2();	
+					aux2();
 					x=retornaPalabra(pos++);
 					if(x==";"){
 						//proximamente su programacion
@@ -98,7 +98,7 @@ compilador::compilador(){
 						cout<<"Se espera un - ; -"<<endl;
 					}
 				}else{
-					cout<<"Se espera un - dnsdef -"<<endl;	
+					cout<<"Se espera un - dnsdef -"<<endl;
 				}
 		}else{
 			retornaPalabra(pos--);
@@ -109,12 +109,12 @@ compilador::compilador(){
 			if(x3=="iden"){
 				x3=retornaPalabra(pos++); //Igualo la palabra.
 				if(x3=="="){
-					//FALTA NUM error aquí
+					//FALTA NUM error aquï¿½
 					x3=retornaPalabra(pos++);
 					if(x3=="nume"){
-						aux3();	
+						aux3();
 					}else{
-						cout<<"Se esperaba un numero."<<endl;	
+						cout<<"Se esperaba un numero."<<endl;
 					}
 				}else{
 					cout<<"Se esperaba un - = -"<<endl;
@@ -134,7 +134,7 @@ compilador::compilador(){
 			 }
 		}else{
 			retornaPalabra(pos--);
-		} 
+		}
 	}
 	void compilador::aux4(){
 		//follow
@@ -158,7 +158,7 @@ compilador::compilador(){
 	void compilador::aux5(){
 		//follow
 		string x6=retornaPalabra(pos++); //Igualo la palabra.
-		
+
 			if(x6=="iden"){
 				aux6();
 					x6=retornaPalabra(pos++);
@@ -214,7 +214,7 @@ compilador::compilador(){
 	}
 	void compilador::proposicion(){
 		string x9=retornaPalabra(pos++);
-			
+
 		if(x9=="iden"){
 			x9=retornaPalabra(pos++);
 		//	x9=retornaPalabra(pos++);
@@ -227,7 +227,7 @@ compilador::compilador(){
 		}else if(x9=="dnscall"){
 			x9=retornaPalabra(pos++);
 			if(x9=="iden"){
-				
+
 			}else{
 				cout<<"Se esperaba un identificador"<<endl;
 			}
@@ -236,7 +236,7 @@ compilador::compilador(){
 			aux8();
 			x9=retornaPalabra(pos++);
 			if(x9=="endstart"){
-				//Proximamente....	
+				//Proximamente....
 			}else{
 				cout<<"Se esperaba un - endstart -"<<endl;
 			}
@@ -260,10 +260,10 @@ compilador::compilador(){
 			}else{
 				cout<<"Se esperaba un - ; -"<<endl;
 			}
-			
+
 		}else{
 			retornaPalabra(pos--);
-		}	
+		}
 	}
 	void compilador::aux9(){
 		string x11=retornaPalabra(pos++);
@@ -285,17 +285,17 @@ compilador::compilador(){
 	void compilador::aux10(){
 		string x12=retornaPalabra(pos++);
 		if(x12=="=="){
-			
+
 		}else if(x12=="!="){
-			
+
 		}else if(x12=="<"){
-			
+
 		}else if(x12=="<="){
-			
+
 		}else if(x12==">"){
-			
+
 		}else if(x12==">="){
-			
+
 		}else{
 			cout<<"Se esperaba un - '!=', '<', '<=', '>=', '>', '==' - "<<endl;
 		}
@@ -303,11 +303,11 @@ compilador::compilador(){
 	void compilador::exprear(){
 		factor();
 		aux11();
-		
+
 	}
 	void compilador::aux11(){
 		string x16=retornaPalabra(pos++);
-		if(x16!=")" && x16!="=" && x16!="==" && x16!="!=" && x16!="<" && x16!="<=" && x16!=">" && x16!=">=" && x16!="dnsvar" && x16!="dnsdef" && x16!="dnsfunction" && x16!="iden" && x16!="dnscall" && x16!="dnsstart" && x16!="dnsif" && x16!="dnswhile" && x16!="end"){		
+		if(x16!=")" && x16!="=" && x16!="==" && x16!="!=" && x16!="<" && x16!="<=" && x16!=">" && x16!=">=" && x16!="dnsvar" && x16!="dnsdef" && x16!="dnsfunction" && x16!="iden" && x16!="dnscall" && x16!="dnsstart" && x16!="dnsif" && x16!="dnswhile" && x16!="end"){
 		aux12();
 		factor();
 		aux11();
@@ -318,20 +318,20 @@ compilador::compilador(){
 	void compilador::aux12(){
 		string x13=retornaPalabra(pos++);
 		if(x13=="+"){
-			
+
 		}else if(x13=="-"){
-			
+
 		}else if(x13=="*"){
-			
+
 		}else if(x13=="/"){
-			
+
 		}else{
 			cout<<"Se esperaba un - '+', '-', '*', '/' - "<<endl;
 		}
 	}
 	void compilador::factor(){
 		string x14=retornaPalabra(pos++);
-		if(x14=="iden"){		
+		if(x14=="iden"){
 		}else if(x14=="nume"){
 		}else if(x14=="("){
 			exprear();
@@ -342,7 +342,7 @@ compilador::compilador(){
 				cout<<"Se esperaba un - ) -"<<endl;
 			}
 		}else{
-			cout<<"Se esperaba un - identificador o un numero o un '(' -"<<endl;	
+			cout<<"Se esperaba un - identificador o un numero o un '(' -"<<endl;
 		}
 	}
 //Terminan el apartado de los follow funciones.
@@ -365,7 +365,7 @@ string compilador::retornaPalabra(int pos){
 			return "nume";
 		}else{
 			return "iden";
-		} 
+		}
 	}
 }
 
@@ -380,24 +380,24 @@ bool compilador::comprobarLeng(string aux){
 	//cout <<aux;
 
 	if(aux[0]>=48 && aux[0]<=57){
-		
+
 		return false;
 	}
-	
+
 	for(int i=0;i<47;i++){
 		if(alfabeto[i]==aux){
 		//	cout<<"Dentro de al funcion comprobarLengt: "<<aux[0];
 			return false;
 		}
-		
+
 	}
 	return true;
 }
 /*if(aux==alfabeto[i]){
-				
+
 					return aux;
 				}else{
-								
+
 					return "Error palabra no en el lenguaje";
 				}*/
 
@@ -405,10 +405,10 @@ bool compilador::comprobarLeng(string aux){
 void compilador::archivo(){
 		int c;
 	int bandera=0;
-	char direccion[]= "C:\\Users\\Dons\\Documents\\prueba.txt";
-	
+	char direccion[]= "/xxhome//dons/Documentos/prueba.txt";
+
 	fd= fopen(direccion,"rt");//leer texto
-	
+
 	if(fd==NULL){
 		cout<<"Error al leer el archivo"<<endl;
 		exit(0);
@@ -420,8 +420,8 @@ void compilador::archivo(){
 			 bandera++;
 			a[bandera]=(char)c;
 		}
-		
-		
+
+
 	}
 
 	fclose(fd);
@@ -440,21 +440,21 @@ string compilador::palabra(){
 			while((letra>=48 && letra<=57)){
 			cadena+= letra;
 			letra=separarcaracter(contador++);
-			
+
 			}
 			if (letra==46){
-			
+
 				letra=separarcaracter(contador++);
 				if (letra>=48 && letra<=57){
-				
+
 					cadena+=".";
-				
+
 					while (letra>=48 && letra<=57)
 					{
 							cadena+= letra;
 							letra=separarcaracter(contador++);
 							//28FEBR concatena numeros con letras
-							
+
 							while((letra>=65 && letra<=90) || (letra>=97 && letra<=122)){
 								cadena+= letra;
 								letra=separarcaracter(contador++);
@@ -463,24 +463,24 @@ string compilador::palabra(){
 							//28 DE FEBR
 					}
 				}else
-				{ 
+				{
 					separarcaracter(contador--);
 				}
 			}
 			separarcaracter(contador--);
-		//Comparacion si esta en el lenguaje 
+		//Comparacion si esta en el lenguaje
 		//true = error.
-	
+
 		x=comprobarLeng(cadena);
-			
+
 			if(x==true || band==true){
 				return "Error de sintaxis";
 			}
 			else{
-				return cadena;	
+				return cadena;
 			}
-	
-			
+
+
 			//Cuando son letras.
 		}else if((letra>=94 && letra<=122) ||(letra>=65 && letra<=90)){//Letras
 				while((letra>=94 && letra<=122) ||(letra>=65 && letra<=90)||(letra>=48 && letra<=57) ){
@@ -502,10 +502,10 @@ string compilador::palabra(){
 			if(x==true){
 				return "Error de sintaxis";
 			}else{
-				//Concatenamos los signos de igualación y diferiencia.
+				//Concatenamos los signos de igualaciï¿½n y diferiencia.
 				char linea2=separarcaracter(contador++);
 				if(cadena=="<" || cadena==">" || cadena=="!" || cadena=="=" ){
-				
+
 					if(linea2=='=')
 					{
 						cadena+=linea2;
@@ -516,7 +516,7 @@ string compilador::palabra(){
 						separarcaracter(contador--);
 					}
 				}else if(cadena=="("){
-			
+
 					if(linea2==')'){
 					cadena+=linea2;
 					}
@@ -525,12 +525,12 @@ string compilador::palabra(){
 					separarcaracter(contador--);
 				}
 				return cadena;
-			}	
+			}
 		}
 		return NULL;
 	}
 char compilador::separarcaracter(int contador){
-	return a[contador+1];	
+	return a[contador+1];
 }
 
 void compilador::guardarAlfa() {
@@ -593,6 +593,5 @@ compilador::~compilador(){
 		contador=0;
 		 palabracon="";
 		 pos=0;
-			
-};
 
+};
