@@ -79,6 +79,7 @@ compilador::compilador(){
 		//Falta el follow.
 		aux1();
 		aux4();
+		cout<<"Hola"<<endl;
 		aux7();
 		proposicion();
 	}
@@ -158,15 +159,14 @@ compilador::compilador(){
 	void compilador::aux5(){
 		//follow
 		string x6=retornaPalabra(pos++); //Igualo la palabra.
-
 			if(x6=="iden"){
 				aux6();
-					x6=retornaPalabra(pos++);
-					if(x6==";"){
+					//x6 =retornaPalabra(pos++);
+					//if(x6==";"){
 						//proximamente su programacion
-					}else{
-						cout<<"Se espera un - ; -"<<endl;
-					}
+					//}else{
+				//		cout<<"Se espera un - ; -"<<endl;
+				//	}
 			}else{
 				cout<<"Se esperaba un - identificador -"<<endl;
 			}
@@ -175,7 +175,7 @@ compilador::compilador(){
 		string x7=retornaPalabra(pos++);
 		if(x7!=";"){
 			if(x7==","){
-				aux4();
+				aux5();
 			}else{
 				cout<<"Se esperaba un - , -"<<endl;
 			}
@@ -186,8 +186,10 @@ compilador::compilador(){
 	void compilador::aux7(){
 		//follow
 		string x8=retornaPalabra(pos++);
+		cout<<x8<<endl;
 		if(x8!="iden" && x8!="dnscall" && x8!="dnsstart" && x8!="dnsif" && x8!="dnswhile"){
 			if(x8=="dnsfunction"){
+				cout<<x8<<endl;
 				x8=retornaPalabra(pos++);
 				if(x8=="iden"){
 					x8=retornaPalabra(pos++);
@@ -218,7 +220,6 @@ compilador::compilador(){
 		if(x9=="iden"){
 			x9=retornaPalabra(pos++);
 		//	x9=retornaPalabra(pos++);
-			 cout<<x9;
 			if(x9=="="){
 				exprear();
 			}else{
@@ -308,6 +309,7 @@ compilador::compilador(){
 	void compilador::aux11(){
 		string x16=retornaPalabra(pos++);
 		if(x16!=")" && x16!="=" && x16!="==" && x16!="!=" && x16!="<" && x16!="<=" && x16!=">" && x16!=">=" && x16!="dnsvar" && x16!="dnsdef" && x16!="dnsfunction" && x16!="iden" && x16!="dnscall" && x16!="dnsstart" && x16!="dnsif" && x16!="dnswhile" && x16!="end"){
+			retornaPalabra(pos--);
 		aux12();
 		factor();
 		aux11();
@@ -317,6 +319,7 @@ compilador::compilador(){
 	}
 	void compilador::aux12(){
 		string x13=retornaPalabra(pos++);
+		cout<<x13<<endl;
 		if(x13=="+"){
 
 		}else if(x13=="-"){
@@ -331,7 +334,9 @@ compilador::compilador(){
 	}
 	void compilador::factor(){
 		string x14=retornaPalabra(pos++);
+
 		if(x14=="iden"){
+
 		}else if(x14=="nume"){
 		}else if(x14=="("){
 			exprear();
@@ -405,7 +410,7 @@ bool compilador::comprobarLeng(string aux){
 void compilador::archivo(){
 		int c;
 	int bandera=0;
-	char direccion[]= "/xxhome//dons/Documentos/prueba.txt";
+	char direccion[]= "/home//dons/Documentos/prueba.txt";
 
 	fd= fopen(direccion,"rt");//leer texto
 
