@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
+#define max 1000
 using namespace std;
 
 class compilador{
 	private:
 		char a[50];
+		string text[max]; //Arreglo donde guarda funciones.
 		int contador;
 		string palabracon;
 		string alfabeto[50];
@@ -18,6 +20,7 @@ class compilador{
 		bool comprobarLeng(string);//Comprobamos si esta � no en el lenguaje.
 		void agregarPalabras(); //Se agregan todas las palabras a un arreglo.
 		string retornaPalabra(int);
+		void agregarArr();
 		//Introducir follow y BNF
 		void programa();
 		void bloque();
@@ -38,6 +41,7 @@ class compilador{
 		void aux12();
 		void factor();
 		//Terminan los follow y BNF
+		void impri();
 		~compilador();
 };
 
@@ -50,9 +54,15 @@ int main() {
 	b.archivo();//Abre archivo.
 	b.guardarAlfa();//Crea tabla Simbolos.
 	//cout<<"holas";
-	b.agregarPalabras(); //Agrega las palabras a un arreglo para el control de ella.
+	b.agregarArr(); //Agregar en un arreglo palabras del txt.
+	//b.agregarPalabras(); //Agrega las palabras a un arreglo para el control de ella.
 //---No borrar--//
-	b.programa();
+
+
+
+	//b.impri();
+
+	//b.programa();
 	return 0;
 }
 
@@ -60,6 +70,25 @@ int main() {
 compilador::compilador(){
 	contador=0;
 	pos=0;
+}
+void compilador::impri(){
+	for(int i=0;i< sizeof(text);i++){
+		cout<<text[i]<<" ";
+	}
+	cout<<"\n";
+	cout<<"termino"<<endl;
+}
+void compilador::agregarArr(){
+	int i=0;
+	while (true){
+		string x=palabra();
+		if(x=="end"){
+			text[i]=palabra();
+			break;
+		}else{
+				text[i]=palabra();
+		}
+	}
 }
 //	Apartado para los follow funciones.
 	void compilador::programa(){
@@ -90,9 +119,11 @@ compilador::compilador(){
 		//cout<<x;
 		//Modificar identificadores.
 		if(x!="dnsvar" && x!="dnsfunction" && x!="iden" && x!="dnscall" && x!="dnswrite" && x!="dnsstart" && x!="dnsif" && x!="dnswhile"){
+			cout<<x<<" dfaf"<<endl;
 				if(x=="dnsdef"){
 					aux2();
 					x=retornaPalabra(pos++);
+					cout<<x<< " aux1" <<endl;
 					if(x==";"){
 						//proximamente su programacion
 					}else{
@@ -113,6 +144,7 @@ compilador::compilador(){
 					//FALTA NUM error aqu�
 					x3=retornaPalabra(pos++);
 					if(x3=="nume"){
+						cout<<x3<< " aux2" <<endl;
 						aux3();
 					}else{
 						cout<<"Se esperaba un numero."<<endl;
@@ -127,6 +159,7 @@ compilador::compilador(){
 	void compilador::aux3(){
 		//follow
 		string x4=retornaPalabra(pos++); //Igualo la palabra.
+		cout<<x4<< " aux3" <<endl;
 		if(x4!=";"){
 			 if(x4==","){
 			 	aux2();
@@ -157,7 +190,6 @@ compilador::compilador(){
 		}
 	}
 	void compilador::aux5(){
-		//follow
 		string x6=retornaPalabra(pos++); //Igualo la palabra.
 			if(x6=="iden"){
 				aux6();
@@ -172,6 +204,7 @@ compilador::compilador(){
 			}
 	}
 	void compilador::aux6(){
+		//follow
 		string x7=retornaPalabra(pos++);
 		if(x7!=";"){
 			if(x7==","){
@@ -186,10 +219,10 @@ compilador::compilador(){
 	void compilador::aux7(){
 		//follow
 		string x8=retornaPalabra(pos++);
-		cout<<x8<<endl;
+		//cout<<x8<<endl;
 		if(x8!="iden" && x8!="dnscall" && x8!="dnsstart" && x8!="dnsif" && x8!="dnswhile"){
 			if(x8=="dnsfunction"){
-				cout<<x8<<endl;
+				//cout<<x8<<endl;
 				x8=retornaPalabra(pos++);
 				if(x8=="iden"){
 					x8=retornaPalabra(pos++);
@@ -199,7 +232,7 @@ compilador::compilador(){
 						if(x8==";"){
 							aux7();
 						}else{
-							cout<<"Se espera un - ; -"<<endl;
+							cout<<"HOLA Se espera un - ; -"<<endl;
 						}
 					}else{
 							cout<<"Se esperaba un - - -"<<endl;
@@ -244,10 +277,10 @@ compilador::compilador(){
 		}else if(x9=="dnsif"){
 			condicion();
 			bloque();
+			aux9();
 		}else if(x9=="dnswhile"){
 			condicion();
 			bloque();
-			aux9();
 		}else{
 			cout<<"Se esperaba una sentencia - dnsif, dnswhile, endstart, dnsstart,dnscall, iden  -"<<endl;
 		}
@@ -268,7 +301,7 @@ compilador::compilador(){
 	}
 	void compilador::aux9(){
 		string x11=retornaPalabra(pos++);
-		if(x11!=";" && x11!="end"){
+		if(x11!=";" && x11!="end" && x11!="endstart"){
 			if(x11=="dnselse"){
 				bloque();
 			}else{
@@ -308,7 +341,7 @@ compilador::compilador(){
 	}
 	void compilador::aux11(){
 		string x16=retornaPalabra(pos++);
-		if(x16!=")" && x16!="=" && x16!="==" && x16!="!=" && x16!="<" && x16!="<=" && x16!=">" && x16!=">=" && x16!="dnsvar" && x16!="dnsdef" && x16!="dnsfunction" && x16!="iden" && x16!="dnscall" && x16!="dnsstart" && x16!="dnsif" && x16!="dnswhile" && x16!="end"){
+		if(x16!=")" && x16!="==" && x16!="!=" && x16!="<" && x16!="<=" && x16!=">" && x16!=">=" && x16!="dnsvar" && x16!="dnsdef" && x16!="dnsfunction" && x16!="iden" && x16!="dnscall" && x16!="dnsstart" && x16!="dnsif" && x16!="dnswhile"){
 			retornaPalabra(pos--);
 		aux12();
 		factor();
@@ -358,6 +391,7 @@ string compilador::retornaPalabra(int pos){
 	//cout<<"palabra: "<<pal<<endl;
 	//concatenar cuando es <= falta. nota mental.
 	bool band=false;
+	 cout<<pal<<endl;
 	for(int i=0;i<47;i++){
 		if(alfabeto[i]==pal){
 			band=true;
@@ -378,8 +412,10 @@ void compilador::agregarPalabras(){
 	string x="";
 	while(x!="end"){//Termina cuando en el documento existe un 'end'
 		x=palabra();
+		cout<<"valor: "<<x<<endl;
 		arr.push_back(x);
 	}
+	//arr.push_back("end");
 }
 bool compilador::comprobarLeng(string aux){
 	//cout <<aux;
