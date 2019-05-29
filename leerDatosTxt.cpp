@@ -11,6 +11,7 @@ class compilador{
 		string alfabeto[50];
 		vector<string>arr;
 		int pos;// Almacena la posicion del arreglo global.
+		int conta=0;//Cuenta que tamaño es el arreglo del txt
 	public:
 		compilador();
 		string palabra();
@@ -53,16 +54,12 @@ int main() {
 	compilador b;//Crea clase.
 	b.archivo();//Abre archivo.
 	b.guardarAlfa();//Crea tabla Simbolos.
-	//cout<<"holas";
 	b.agregarArr(); //Agregar en un arreglo palabras del txt.
 	//b.agregarPalabras(); //Agrega las palabras a un arreglo para el control de ella.
 //---No borrar--//
-
-
-
-	//b.impri();
-
-	//b.programa();
+	b.impri();
+	b.programa();
+	cout<<"holas";
 	return 0;
 }
 
@@ -70,25 +67,32 @@ int main() {
 compilador::compilador(){
 	contador=0;
 	pos=0;
+	conta=0;
 }
 void compilador::impri(){
-	for(int i=0;i< sizeof(text);i++){
-		cout<<text[i]<<" ";
+	for(int i=0;i<conta;i++){
+		std::cout << text[i] << '\n';
 	}
-	cout<<"\n";
-	cout<<"termino"<<endl;
 }
 void compilador::agregarArr(){
 	int i=0;
-	while (true){
-		string x=palabra();
+
+	string x="";
+	while (x!="end"){
+		x=palabra();
+		conta++;
 		if(x=="end"){
-			text[i]=palabra();
+			text[i]=x;
+			cout<<x<<" "<<conta<<endl;
 			break;
 		}else{
-				text[i]=palabra();
+			///cout<<x<<" ";
+			cout<<x<<" "<<conta<<endl;
+				text[i]=x;
 		}
+		i++;
 	}
+	cout<<conta<<endl;
 }
 //	Apartado para los follow funciones.
 	void compilador::programa(){
@@ -387,7 +391,7 @@ void compilador::agregarArr(){
 
 
 string compilador::retornaPalabra(int pos){
-	string pal=arr[pos];
+	string pal=text[pos];
 	//cout<<"palabra: "<<pal<<endl;
 	//concatenar cuando es <= falta. nota mental.
 	bool band=false;
