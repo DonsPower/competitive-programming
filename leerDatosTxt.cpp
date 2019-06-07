@@ -10,6 +10,8 @@ class compilador{
 		string palabracon;
 		string alfabeto[50];
 		vector<string>arr;
+		vector<string>text2;
+		vector<string>text3;
 		int pos;// Almacena la posicion del arreglo global.
 		int conta=0;//Cuenta que tamaño es el arreglo del txt
 	public:
@@ -43,6 +45,8 @@ class compilador{
 		void factor();
 		//Terminan los follow y BNF
 		void impri();
+		bool comparar();
+		bool comparar2();
 		~compilador();
 };
 
@@ -59,7 +63,7 @@ int main() {
 //---No borrar--//
 	b.impri();
 	b.programa();
-	cout<<"holas";
+	//cout<<"holas";
 	return 0;
 }
 
@@ -69,10 +73,55 @@ compilador::compilador(){
 	pos=0;
 	conta=0;
 }
+/*	alfabeto[35]="dnsint";
+	alfabeto[36]="dnsvoid";
+	alfabeto[37]="dnschar";
+	alfabeto[38]="dnslong";
+	alfabeto[39]="dnsfloat";
+	alfabeto[40]="dnsstring";
+	alfabeto[41]="dnsboolean";
+	alfabeto[42]="dnsdouble";
+	alfabeto[43]="dnslong";*/
 void compilador::impri(){
 	for(int i=0;i<conta;i++){
-		std::cout << text[i] << '\n';
+		if(text[i]!="dnsdef" && text[i]!="dnsvar" && text[i]!="end" && text[i]!="=" && text[i]!="+" && text[i]!="-" && text[i]!="*" && text[i]!="/"&& text[i]!="," && text[i]!=";"){
+			if(text[i]=="dnscall"){
+					text3.push_back(text[i+1]);
+					i++;
+			}else{
+				text2.push_back(text[i]);
+			}
+		}
 	}
+	comparar();
+	comparar2();
+}
+bool compilador::comparar(){
+	bool band=false;
+	for (size_t i = 0; i <text2.size()-1; i++) {
+		for (size_t j = i+1; j <text2.size(); j++) {
+
+				if(text2[i]==text2[j]){
+					cout<<"Variable: "<<text3[i]<<" Ya fue declarada."<<endl;
+					band=true;
+					break;
+				}
+		}
+	}
+	return band;
+}
+bool compilador::comparar2(){
+	bool ban=true;
+	for (size_t i = 0; i <text3.size(); i++) {
+		for (size_t j =0; j <text2.size(); j++) {
+				if(text3[i]==text2[j]){
+					ban=false;
+					break;
+				}
+		}
+		if(ban)std::cout << "Dnscall La Variable: "<<text3[i]<< " no declarada" << '\n';
+	}
+	return ban;
 }
 void compilador::agregarArr(){
 	int i=0;
@@ -83,29 +132,35 @@ void compilador::agregarArr(){
 		conta++;
 		if(x=="end"){
 			text[i]=x;
-			cout<<x<<" "<<conta<<endl;
+		//	cout<<x<<" "<<conta<<endl;
 			break;
 		}else{
 			///cout<<x<<" ";
-			cout<<x<<" "<<conta<<endl;
+			//cout<<x<<" "<<conta<<endl;
 				text[i]=x;
 		}
 		i++;
 	}
-	cout<<conta<<endl;
+	//cout<<conta<<endl;
 }
 //	Apartado para los follow funciones.
 	void compilador::programa(){
 	//	cout<<"entro"<<endl;
 		bloque();
-
-		//verificar si esto esta bien.
 		string x1=retornaPalabra(pos++); //Igualo la palabra.
+		//verificar si esto esta bien.
+		bool al=comparar();
+		bool alo=comparar2();
 
-		if(x1=="end"){
-			cout<<"Compilacion exitosa, :D Bien FELICIDADES BRO :D "<<endl;
+		if(al==true || alo==true){
+			std::cout << "Error" << '\n';
+
 		}else{
+			if(x1=="end"){
+				cout<<"Compilacion exitosa, :D Bien FELICIDADES BRO :D "<<endl;
+			}else{
 			cout<<"Se esperaba un - end -"<<endl;
+			}
 		}
 	}
 	void compilador::bloque(){
@@ -123,7 +178,7 @@ void compilador::agregarArr(){
 		//cout<<x;
 		//Modificar identificadores.
 		if(x!="dnsvar" && x!="dnsfunction" && x!="iden" && x!="dnscall" && x!="dnswrite" && x!="dnsstart" && x!="dnsif" && x!="dnswhile"){
-			cout<<x<<" dfaf"<<endl;
+
 				if(x=="dnsdef"){
 					aux2();
 					x=retornaPalabra(pos++);
@@ -627,6 +682,7 @@ void compilador::guardarAlfa() {
 	alfabeto[45]="=";
 	alfabeto[46]="end";
 }
+
 compilador::~compilador(){
 		for(int i=0;i<50; i++){
 			a[i]=0;
