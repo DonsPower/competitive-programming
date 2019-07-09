@@ -410,7 +410,7 @@ bool compilador::comprobarLeng(string aux){
 void compilador::archivo(){
 		int c;
 	int bandera=0;
-	char direccion[]= "/home//dons/Documentos/prueba.txt";
+	char direccion[]= "C:\\Users\\Dons\\Documents\\prueba.txt";
 
 	fd= fopen(direccion,"rt");//leer texto
 
