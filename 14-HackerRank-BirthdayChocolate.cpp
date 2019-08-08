@@ -1,15 +1,23 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+
 int birthday(vector<int> s, int d, int m) {
-    int resu=0, cont=0;
-    for(int i=0;i<s.size()-d;i++){
-        for(int j=i;j<m;j++){
-            resu+=s[j];
-        }
-        if(resu==d) cont++;
-    }
-    return cont;
+    if(s.size()==1){
+    	if(s[0]==d) return 1;
+    	else return 0;
+	}else{
+		int suma, cont=0;
+		for(int i=0;i<=s.size()-m;i++){
+			for(int j=i;j<i+m;j++){
+				suma+=s[j];
+			}
+			if(suma==d) cont++;
+			suma=0;
+		}
+		return cont;
+	}
+	
 }
 int main(){
 	int a, al;
