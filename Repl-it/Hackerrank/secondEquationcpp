@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector <int> arr_ini;
+vector <int> arr_second;
+
+void buscarguardar(int pos){//encontrar poscion y guardar en arreglo second.
+  for(int i=0;i<arr_ini.size();i++){
+    if(arr_ini[i]==pos){
+      arr_second.push_back(i+1);
+      break;
+    }
+  }
+}
+vector<int> arr_final;
+void buscarguardar2(int pos){
+  for(int i=0;i<arr_ini.size();i++){
+    if(arr_ini[i]==pos){
+      arr_final.push_back(i+1);
+      break;
+    }
+  }
+}
+void find1(int fina){
+  int i=1; //inicio del contador
+  while(i!=fina+1){//fina es el tamaño del arreglo
+    buscarguardar(i);   
+    i++;
+  }
+  for(int j=0;j<arr_second.size();j++){
+    buscarguardar2(arr_second[j]);
+  }
+}
+int main(){
+  int ent;
+  cin>>ent;
+  for(int i=0;i<ent;i++){
+    int al;
+    cin>>al;
+    arr_ini.push_back(al);
+  }
+  find1(ent);
+  for(int j=0;j<arr_final.size();j++){
+    cout<<arr_final[j]<<" ";
+  }
+  return 0;
+}
